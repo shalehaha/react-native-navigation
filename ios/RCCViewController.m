@@ -205,9 +205,8 @@ const NSInteger TRANSPARENT_NAVBAR_TAG = 78264803;
 }
 
 - (void)sendScreenChangedEvent:(NSString *)eventName {
-    if ([self.view isKindOfClass:[RCTRootView class]]) {
-        
-        RCTRootView *rootView = (RCTRootView *)self.view;
+    if (self.view != nil) {
+        RCTRootView *rootView = self.view;
         
         if (rootView.appProperties && rootView.appProperties[@"navigatorEventID"]) {
             
@@ -221,8 +220,9 @@ const NSInteger TRANSPARENT_NAVBAR_TAG = 78264803;
 }
 
 - (void)sendGlobalScreenEvent:(NSString *)eventName endTimestampString:(NSString *)endTimestampStr shouldReset:(BOOL)shouldReset {
-    if ([self.view isKindOfClass:[RCTRootView class]]){
-        NSString *screenName = [((RCTRootView*)self.view) moduleName];
+    if (self.view != nil){
+        RCTRootView *rootView = self.view;
+        NSString *screenName = [rootView moduleName];
         
         [[[RCCManager sharedInstance] getBridge].eventDispatcher sendAppEventWithName:eventName body:@
          {
